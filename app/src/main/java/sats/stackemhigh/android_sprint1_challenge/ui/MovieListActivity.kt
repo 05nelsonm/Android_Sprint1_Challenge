@@ -110,7 +110,7 @@ class MovieListActivity : AppCompatActivity() {
                 editMovieCheck = true
             }
 
-            // Hitting delete button returns DELETE_MOVIE_REQUEST_CODE back
+        // Hitting delete button returns DELETE_MOVIE_REQUEST_CODE back
         } else if (requestCode == DELETE_MOVIE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
 
             // If user hits the delete button for a Movie that already exists
