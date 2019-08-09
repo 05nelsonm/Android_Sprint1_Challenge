@@ -4,11 +4,11 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_movie_details.*
 import sats.stackemhigh.android_sprint1_challenge.R
 import sats.stackemhigh.android_sprint1_challenge.model.Movie
 import sats.stackemhigh.android_sprint1_challenge.ui.MovieListActivity.Companion.DELETE_MOVIE_REQUEST_CODE
-import sats.stackemhigh.android_sprint1_challenge.ui.MovieListActivity.Companion.EDIT_MOVIE_REQUEST_CODE
 import sats.stackemhigh.android_sprint1_challenge.ui.MovieListActivity.Companion.MOVIE_DETAILS_REQUEST_KEY_DELETE
 import sats.stackemhigh.android_sprint1_challenge.ui.MovieListActivity.Companion.MOVIE_DETAILS_REQUEST_KEY_MODIFY
 
@@ -24,22 +24,24 @@ class MovieDetailsActivity : AppCompatActivity() {
 
         // Delete Button Details
         btn_delete.setOnClickListener {
-            val intentDelete = Intent()
-            intentDelete.putExtra(MOVIE_DETAILS_REQUEST_KEY_DELETE, Movie())
-            setResult(DELETE_MOVIE_REQUEST_CODE, intentDelete)
-            println(intentDelete)
-            finish()
+            if (index >= 0) {
+                val intentDelete = Intent()
+                intentDelete.putExtra(MOVIE_DETAILS_REQUEST_KEY_DELETE, Movie(myMovie?.title ?: "Junk", index, watched))
+                setResult(DELETE_MOVIE_REQUEST_CODE, intentDelete)
+                println(intentDelete)
+                finish()
+            }
+
         }
 
         // Save button Details
         btn_save.setOnClickListener {
-            if (et_movie_name.toString().isNotEmpty()) {
+            if (et_movie_name.toString() !=  "") {
                 val intentSave = Intent()
                 intentSave.putExtra(MOVIE_DETAILS_REQUEST_KEY_MODIFY, createMovie(watched))
                 setResult(Activity.RESULT_OK, intentSave)
                 finish()
-            } else
-                Toast.
+            }
         }
 
         switch_boolean.setOnClickListener() {

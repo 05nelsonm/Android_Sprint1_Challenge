@@ -112,21 +112,17 @@ class MovieListActivity : AppCompatActivity() {
                 editMovieCheck = true
             }
 
-        // Hitting delete button returns DELETE_MOVIE_REQUEST_CODE back
+            // Hitting delete button returns DELETE_MOVIE_REQUEST_CODE back
         } else if (requestCode == EDIT_MOVIE_REQUEST_CODE && resultCode == DELETE_MOVIE_REQUEST_CODE) {
-            val newMovieIndexVal = data?.getSerializableExtra(MOVIE_DETAILS_REQUEST_KEY_DELETE) as Int
+            val newMovie = data?.getSerializableExtra(MOVIE_DETAILS_REQUEST_KEY_DELETE) as Movie
 
-            // If user hits the delete button for a Movie that already exists
-            if (newMovieIndexVal > 0) {
+            // Remove that Movie from the list and set deleteMovieCheck to true to refresh listView
+            movieList.removeAt(newMovie.index)
+            deleteMovieCheck = true
 
-                // Remove that Movie from the list and set deleteMovieCheck to true to refresh listView
-                movieList.removeAt(newMovieIndexVal)
-                deleteMovieCheck = true
-
-                // Refactor Movie.index values for each Movie in the list
-                for (i in 0 until movieList.size) {
-                    movieList[i].index = i
-                }
+            // Refactor Movie.index values for each Movie in the list
+            for (i in 0 until movieList.size) {
+                movieList[i].index = i
             }
         }
     }
