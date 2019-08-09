@@ -58,8 +58,9 @@ class MovieDetailsActivity : AppCompatActivity() {
 
     private fun loadMovieDetails(movie: Movie?) {
         et_movie_name.setText(movie?.title)
-        switch_boolean.isChecked = movie!!.watched
-        index = movie.index
+        switch_boolean.isChecked = movie?.watched ?: false
+        watched = switch_boolean.isChecked
+        index = movie!!.index
     }
 
     private fun createMovie(watched: Boolean): Movie {
