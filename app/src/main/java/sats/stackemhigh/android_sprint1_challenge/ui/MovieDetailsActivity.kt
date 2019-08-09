@@ -30,17 +30,21 @@ class MovieDetailsActivity : AppCompatActivity() {
                 setResult(DELETE_MOVIE_REQUEST_CODE, intentDelete)
                 println(intentDelete)
                 finish()
+            } else {
+                Toast.makeText(this, "No item to delete", Toast.LENGTH_SHORT).show()
             }
 
         }
 
         // Save button Details
         btn_save.setOnClickListener {
-            if (et_movie_name.toString() !=  "") {
+            if (et_movie_name.text.isNotEmpty()) {
                 val intentSave = Intent()
                 intentSave.putExtra(MOVIE_DETAILS_REQUEST_KEY_MODIFY, createMovie(watched))
                 setResult(Activity.RESULT_OK, intentSave)
                 finish()
+            } else {
+                Toast.makeText(this, "Please enter a Movie Name", Toast.LENGTH_SHORT).show()
             }
         }
 
