@@ -18,9 +18,9 @@ class MovieListActivity : AppCompatActivity() {
     private var workingIndexValue: Int = -1
 
     companion object {
-        const val EDIT_MOVIE_REQUEST_CODE = 9143657
-        const val DELETE_MOVIE_REQUEST_CODE = 7719971
-        const val MOVIE_DETAILS_REQUEST_KEY = "ALKDJSHP9IN1OI8JAXLKVH"
+        const val EDIT_MOVIE_REQUEST_CODE = 9143
+        const val DELETE_MOVIE_REQUEST_CODE = 7719
+        const val MOVIE_DETAILS_REQUEST_KEY_DELETE = "ALKDJSHP9IN1OI8JAXLKVH"
         const val MOVIE_DETAILS_REQUEST_KEY_MODIFY = "P98I1BH3IREUHF09UPOKAUHIKUH"
     }
 
@@ -29,8 +29,9 @@ class MovieListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_movie_list)
 
         btn_add_movie.setOnClickListener {
-            val intent = Intent(this, MovieDetailsActivity::class.java)
-            startActivityForResult(intent, EDIT_MOVIE_REQUEST_CODE)
+            val addMovieIntent = Intent(this, MovieDetailsActivity::class.java)
+            println(addMovieIntent)
+            startActivityForResult(addMovieIntent, EDIT_MOVIE_REQUEST_CODE)
         }
     }
 
@@ -58,7 +59,8 @@ class MovieListActivity : AppCompatActivity() {
 
         newMovieView.setOnClickListener {
             val intent = Intent(this, MovieDetailsActivity::class.java)
-            intent.putExtra(MOVIE_DETAILS_REQUEST_KEY, movieList[index])
+            intent.putExtra(MOVIE_DETAILS_REQUEST_KEY_MODIFY, movieList[index])
+            println(intent)
             startActivityForResult(intent, EDIT_MOVIE_REQUEST_CODE)
         }
 
@@ -90,10 +92,10 @@ class MovieListActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val newMovie = data?.getSerializableExtra(MOVIE_DETAILS_REQUEST_KEY_MODIFY) as Movie
 
         // hitting save button returns MOVIE_DETAILS_REQUEST_KEY_MODIFY back
         if (requestCode == EDIT_MOVIE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            val newMovie = data?.getSerializableExtra(MOVIE_DETAILS_REQUEST_KEY_MODIFY) as Movie
 
             // If that movie is a new Movie, add it to movieList, update the index of that
             // new Movie, and set addMovieCheck to true
@@ -111,13 +113,14 @@ class MovieListActivity : AppCompatActivity() {
             }
 
         // Hitting delete button returns DELETE_MOVIE_REQUEST_CODE back
-        } else if (requestCode == DELETE_MOVIE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+        } else if (requestCode == EDIT_MOVIE_REQUEST_CODE && resultCode == DELETE_MOVIE_REQUEST_CODE) {
+            val newMovieIndexVal = data?.getSerializableExtra(MOVIE_DETAILS_REQUEST_KEY_DELETE) as Int
 
             // If user hits the delete button for a Movie that already exists
-            if (newMovie.index > 0) {
+            if (newMovieIndexVal > 0) {
 
                 // Remove that Movie from the list and set deleteMovieCheck to true to refresh listView
-                movieList.removeAt(newMovie.index)
+                movieList.removeAt(newMovieIndexVal)
                 deleteMovieCheck = true
 
                 // Refactor Movie.index values for each Movie in the list

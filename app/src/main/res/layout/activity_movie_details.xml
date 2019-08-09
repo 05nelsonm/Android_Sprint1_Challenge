@@ -27,6 +27,7 @@
                 android:textAlignment="center" />
 
         <Switch
+                android:checked="false"
                 android:id="@+id/switch_boolean"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
