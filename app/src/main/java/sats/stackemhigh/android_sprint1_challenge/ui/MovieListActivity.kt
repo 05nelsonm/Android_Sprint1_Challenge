@@ -95,6 +95,7 @@ class MovieListActivity : AppCompatActivity() {
         sv_ll.removeAllViews()
         for (i in 0 until movieList.size) {
             sv_ll.addView(createTextView(movieList[i], i))
+            verifyWatched(movieList[i])
         }
     }
 
