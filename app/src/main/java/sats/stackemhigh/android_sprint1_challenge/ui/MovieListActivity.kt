@@ -2,6 +2,7 @@ package sats.stackemhigh.android_sprint1_challenge.ui
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Paint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
@@ -53,9 +54,6 @@ class MovieListActivity : AppCompatActivity() {
         newMovieView.text = movie.title
         newMovieView.textSize = 18f
         newMovieView.id = movie.index
-        if (movie.watched) {
-            // set strike through text
-        }
 
         newMovieView.setOnClickListener {
             val intent = Intent(this, MovieDetailsActivity::class.java)
@@ -67,10 +65,21 @@ class MovieListActivity : AppCompatActivity() {
         return newMovieView
     }
 
+    private fun verifyWatched(movie: Movie) {
+        val view = findViewById<TextView>(movie.index)
+
+        if (movie.watched) {
+            view.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG)
+        } else {
+            view.setPaintFlags(0)
+        }
+    }
+
     private fun addToListView(index: Int) {
         addMovieCheck = false
         val view = createTextView(movieList[index], index)
         sv_ll.addView(view)
+        verifyWatched(movieList[index])
     }
 
     private fun editListView(index: Int) {
@@ -78,9 +87,7 @@ class MovieListActivity : AppCompatActivity() {
         val newMovieInfo = movieList[index]
         val existingView = findViewById<TextView>(index)
         existingView.text = newMovieInfo.title
-        if (newMovieInfo.watched) {
-            // set strike through text for existingView
-        }
+        verifyWatched(newMovieInfo)
     }
 
     private fun refreshListView() {
